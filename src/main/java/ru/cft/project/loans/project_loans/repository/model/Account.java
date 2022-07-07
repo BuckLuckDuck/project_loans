@@ -12,8 +12,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Account {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id")
-    Long id;
+    Long _id;
 
 
     @Column(name = "login")
@@ -22,8 +21,7 @@ public class Account {
     @Column(name = "password_token")
     String passwordToken;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "_id_person")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "_id_person", referencedColumnName = "_id")
     Person person;
 }

@@ -12,7 +12,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Person {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    Long id;
+    Long _id;
 
     @Column(name = "name", nullable = false)
     String name;
@@ -32,11 +32,9 @@ public class Person {
     @OneToMany(mappedBy = "person")
     Set<LoanPerson> loanPersonSet;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @OneToOne(mappedBy = "person")
     Account account;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @OneToOne(mappedBy = "person")
     Balance balance;
 }

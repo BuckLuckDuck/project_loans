@@ -4,11 +4,14 @@ package ru.cft.project.loans.project_loans.repository.model;
 import javax.persistence.*;
 import javax.websocket.OnError;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Entity
 @Table(name = "contract")
 public class Contract{
     @Id
-    Long id;
+    @GeneratedValue(strategy = IDENTITY)
+    Long _id;
 
     @Column(name = "amount_loan")
     Long loanAmount;
@@ -22,9 +25,7 @@ public class Contract{
     @Column(name = "expiration_date")
     String expirationDate;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "_id_loan")
+    @OneToOne(mappedBy = "contract")
     Loan loan;
 
 }

@@ -8,5 +8,16 @@ public class PersonPromocode {
     @EmbeddedId
     PersonPromocodeKey id;
 
+
+    @ManyToOne
+    @MapsId("personId")
+    @JoinColumn(name = "_id_person")
+    Person person;
+
+    @ManyToOne
+    @MapsId("promocodeId")
+    @JoinColumn(name = "_id_promocode")
+    Promocode promocode;
+
     Boolean isUsed;
 }

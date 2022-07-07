@@ -12,7 +12,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Loan {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    Long id;
+    Long _id;
 
     @Column(name = "amount_left")
     Long amountLeft;
@@ -20,8 +20,11 @@ public class Loan {
     @OneToMany(mappedBy = "loan")
     Set<LoanPerson> loanPersonSet;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @OneToMany(mappedBy = "loan")
+    Set<Payment> payments;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "_id_contract", referencedColumnName = "_id")
     Contract contract;
 
 

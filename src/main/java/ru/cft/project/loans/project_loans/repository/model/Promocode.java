@@ -1,7 +1,5 @@
 package ru.cft.project.loans.project_loans.repository.model;
 
-import org.hibernate.annotations.ColumnDefault;
-
 import javax.persistence.*;
 
 @Entity
@@ -9,7 +7,7 @@ import javax.persistence.*;
 public class Promocode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    Long _id;
 
     @Column(name = "code")
     String code;

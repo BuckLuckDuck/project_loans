@@ -2,11 +2,14 @@ package ru.cft.project.loans.project_loans.repository.model;
 
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 @Entity
 @Table(name = "payments")
 public class Payment {
     @Id
-    Long id;
+    @GeneratedValue(strategy = IDENTITY)
+    Long _id;
 
     @Column(name = "time")
     String time;
@@ -15,7 +18,6 @@ public class Payment {
     Long amount;
 
     @ManyToOne
-    @MapsId
-    @PrimaryKeyJoinColumn(name = "_id_loan")
+    @JoinColumn(name = "_id_loan", referencedColumnName = "_id")
     Loan loan;
 }
