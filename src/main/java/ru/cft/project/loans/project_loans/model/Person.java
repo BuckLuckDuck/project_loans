@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -13,7 +14,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Person {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long _id;
+    private Long id;
 
     // Person's name
     @Column(name = "name", nullable = false)
@@ -40,8 +41,11 @@ public class Person {
     private String phoneNumber;
 
     // Person's email
-    @Column(name = "email", nullable = false)
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "pts")
+    private String pts;
 
     // List of person's loans
     // TODO - cascade types
@@ -65,12 +69,12 @@ public class Person {
         loan.setPerson(this);
     }
 
-    public Long get_id() {
-        return _id;
+    public Long getId() {
+        return id;
     }
 
-    public void set_id(Long _id) {
-        this._id = _id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -151,5 +155,13 @@ public class Person {
 
     public void setBalance(Balance balance) {
         this.balance = balance;
+    }
+
+    public String getPts() {
+        return pts;
+    }
+
+    public void setPts(String pts) {
+        this.pts = pts;
     }
 }

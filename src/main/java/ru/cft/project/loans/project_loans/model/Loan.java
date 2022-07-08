@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.GenerationType.IDENTITY;
 
 
@@ -14,11 +15,11 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Loan {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    Long _id;
+    private Long id;
 
     // The amount left to be paid. Including rate
     @Column(name = "amount_left")
-    Long amountLeft;
+    private Long amountLeft;
 
     // The amount that the client loaned from the service
     @Column(name = "amount_loan")
@@ -38,7 +39,7 @@ public class Loan {
 
     // TODO - select CascadeTypes for this
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "_id_person")
+    @JoinColumn(name = "id_person")
     private Person person;
 
     @OneToMany(mappedBy = "loan")
@@ -54,12 +55,12 @@ public class Loan {
         payment.setLoan(this);
     }
 
-    public Long get_id() {
-        return _id;
+    public Long getId() {
+        return id;
     }
 
-    public void set_id(Long _id) {
-        this._id = _id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getAmountLeft() {

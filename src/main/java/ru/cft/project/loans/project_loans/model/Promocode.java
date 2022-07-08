@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Promocode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long _id;
+    private Long id;
 
     // Key of promocode
     @Column(name = "code")
@@ -29,12 +29,12 @@ public class Promocode {
         this.amount = amount;
     }
 
-    public Long get_id() {
-        return _id;
+    public Long getId() {
+        return id;
     }
 
-    public void set_id(Long _id) {
-        this._id = _id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCode() {

@@ -2,6 +2,7 @@ package ru.cft.project.loans.project_loans.model;
 
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -9,7 +10,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Account {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long _id;
+    private Long id;
 
     // User's login
     @Column(name = "login")
@@ -20,18 +21,18 @@ public class Account {
     private String passwordToken;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "_id_person", referencedColumnName = "_id")
+    @JoinColumn(name = "id_person", referencedColumnName = "id")
     private Person person;
 
     public Account() {
     }
 
-    public Long get_id() {
-        return _id;
+    public Long getId() {
+        return id;
     }
 
-    public void set_id(Long _id) {
-        this._id = _id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLogin() {
