@@ -13,25 +13,25 @@ import javax.persistence.EntityManagerFactory;
 @Repository
 public class PersonRepo {
 
+    private final EntityManager entityManager;
+
     @Autowired
-    private EntityManager entityManager;
+    public PersonRepo(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     public Person getPerson(Long id) {
-
         Person person;
 
         Session session = entityManager.unwrap(Session.class);
         person = session.get(Person.class, id);
 
-
         return person;
     }
 
     public void addPerson(Person person) {
-
         Session session = entityManager.unwrap(Session.class);
         session.saveOrUpdate(person);
-
     }
 
 }

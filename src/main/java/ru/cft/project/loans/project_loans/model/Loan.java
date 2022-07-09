@@ -17,6 +17,10 @@ public class Loan {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    // Title of loan
+    @Column(name = "title")
+    private String title;
+
     // The amount left to be paid. Including rate
     @Column(name = "amount_left")
     private Long amountLeft;
