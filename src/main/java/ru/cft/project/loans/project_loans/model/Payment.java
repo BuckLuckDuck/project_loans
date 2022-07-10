@@ -1,5 +1,7 @@
 package ru.cft.project.loans.project_loans.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.AUTO;
@@ -19,10 +21,11 @@ public class Payment {
 
     // Amount of money in payment
     @Column(name = "amount")
-    private Long amount;
+    private int amount;
 
-    @ManyToOne
-    @JoinColumn(name = "id_loan", referencedColumnName = "id")
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_loan", nullable = false)
+    @JsonIgnore
     private Loan loan;
 
     public Payment() {
@@ -44,11 +47,11 @@ public class Payment {
         this.time = time;
     }
 
-    public Long getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 

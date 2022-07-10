@@ -1,6 +1,8 @@
 package ru.cft.project.loans.project_loans.model;
 
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -47,26 +49,16 @@ public class Person {
     @Column(name = "pts")
     private String pts;
 
-    // List of person's loans
-    // TODO - cascade types
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-    private List<Loan> loansList;
+    @Column(name = "balance", nullable = false)
+    @ColumnDefault("-1")
+    private int balance;
 
-    @OneToOne(mappedBy = "person")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
     private Account account;
 
-    @OneToOne(mappedBy = "person")
-    private Balance balance;
 
     public Person() {
-    }
-
-    public void addLoanToPerson(Loan loan) {
-        if (loansList == null)
-            loansList = new ArrayList<>();
-
-        loansList.add(loan);
-        loan.setPerson(this);
     }
 
     public Long getId() {
@@ -133,14 +125,6 @@ public class Person {
         this.email = email;
     }
 
-    public List<Loan> getLoansList() {
-        return loansList;
-    }
-
-    public void setLoansList(List<Loan> loansList) {
-        this.loansList = loansList;
-    }
-
     public Account getAccount() {
         return account;
     }
@@ -149,19 +133,19 @@ public class Person {
         this.account = account;
     }
 
-    public Balance getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Balance balance) {
-        this.balance = balance;
-    }
-
     public String getPts() {
         return pts;
     }
 
     public void setPts(String pts) {
         this.pts = pts;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 }
