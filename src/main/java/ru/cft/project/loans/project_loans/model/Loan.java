@@ -1,5 +1,7 @@
 package ru.cft.project.loans.project_loans.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -41,22 +43,12 @@ public class Loan {
     @Column(name = "expiration_date")
     private String expirationDate;
 
-    // TODO - select CascadeTypes for this
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_person")
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_person", nullable = false)
+    @JsonIgnore
     private Person person;
 
-    @OneToMany(mappedBy = "loan")
-    private List<Payment> payments;
-
     public Loan() {
-    }
-
-    public void addPaymentToLoan(Payment payment) {
-        if (payments == null)
-            payments = new ArrayList<>();
-        payments.add(payment);
-        payment.setLoan(this);
     }
 
     public Long getId() {
@@ -115,11 +107,11 @@ public class Loan {
         this.person = person;
     }
 
-    public List<Payment> getPayments() {
-        return payments;
+    public String getTitle() {
+        return title;
     }
 
-    public void setPayments(List<Payment> payments) {
-        this.payments = payments;
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

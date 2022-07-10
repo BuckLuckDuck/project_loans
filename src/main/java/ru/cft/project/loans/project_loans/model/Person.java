@@ -47,11 +47,6 @@ public class Person {
     @Column(name = "pts")
     private String pts;
 
-    // List of person's loans
-    // TODO - cascade types
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "person")
-    private List<Loan> loansList;
-
     @OneToOne(mappedBy = "person")
     private Account account;
 
@@ -59,14 +54,6 @@ public class Person {
     private Balance balance;
 
     public Person() {
-    }
-
-    public void addLoanToPerson(Loan loan) {
-        if (loansList == null)
-            loansList = new ArrayList<>();
-
-        loansList.add(loan);
-        loan.setPerson(this);
     }
 
     public Long getId() {
@@ -131,14 +118,6 @@ public class Person {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<Loan> getLoansList() {
-        return loansList;
-    }
-
-    public void setLoansList(List<Loan> loansList) {
-        this.loansList = loansList;
     }
 
     public Account getAccount() {

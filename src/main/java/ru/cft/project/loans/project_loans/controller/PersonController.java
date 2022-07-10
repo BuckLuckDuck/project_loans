@@ -1,37 +1,35 @@
 package ru.cft.project.loans.project_loans.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.cft.project.loans.project_loans.model.Person;
-import ru.cft.project.loans.project_loans.service.PersonServiceImpl;
+import ru.cft.project.loans.project_loans.repository.PersonRepository;
+
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/api")
 public class PersonController {
 
-    private final PersonServiceImpl personService;
-
     @Autowired
-    public PersonController(PersonServiceImpl personService) {
-        this.personService = personService;
-    }
+    private PersonRepository personRepository;
 
-    @GetMapping(value = "/{id}")
-    public Person getPerson(
-            @PathVariable Long id
+    @GetMapping(value = "person/{id}")
+    public ResponseEntity<Person> getPerson(
+            @PathVariable("id") Long id
     ) {
-        Person person = personService.getPerson(id);
-
-        if (person != null)
-            return person;
-        else
-            return null; // TODO - Throws exception
+        // TODO - Throw exception
+        Optional<Person> optional = personRepository.findById(id);
+        Person person = optional.get();
+        return new ResponseEntity<>(person, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/add")
-    public Person addPerson(@RequestBody Person person) {
-        personService.addPerson(person);
-        return person;
+    @PostMapping(value = "/person")
+    public ResponseEntity<Person> addPerson(@RequestBody Person person) {
+        Person _person = personRepository.save(person);
+        return new ResponseEntity<>(_person, HttpStatus.CREATED);
     }
 
 }

@@ -1,5 +1,7 @@
 package ru.cft.project.loans.project_loans.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.AUTO;
@@ -21,8 +23,9 @@ public class Payment {
     @Column(name = "amount")
     private Long amount;
 
-    @ManyToOne
-    @JoinColumn(name = "id_loan", referencedColumnName = "id")
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_loan", nullable = false)
+    @JsonIgnore
     private Loan loan;
 
     public Payment() {
