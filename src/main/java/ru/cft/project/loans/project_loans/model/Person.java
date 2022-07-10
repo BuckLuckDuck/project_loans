@@ -1,6 +1,8 @@
 package ru.cft.project.loans.project_loans.model;
 
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -47,11 +49,14 @@ public class Person {
     @Column(name = "pts")
     private String pts;
 
-    @OneToOne(mappedBy = "person")
+    @Column(name = "balance", nullable = false)
+    @ColumnDefault("-1")
+    private int balance;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
     private Account account;
 
-    @OneToOne(mappedBy = "person")
-    private Balance balance;
 
     public Person() {
     }
@@ -128,19 +133,19 @@ public class Person {
         this.account = account;
     }
 
-    public Balance getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Balance balance) {
-        this.balance = balance;
-    }
-
     public String getPts() {
         return pts;
     }
 
     public void setPts(String pts) {
         this.pts = pts;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 }

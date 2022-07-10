@@ -27,9 +27,40 @@ public class PersonController {
     }
 
     @PostMapping(value = "/person")
-    public ResponseEntity<Person> addPerson(@RequestBody Person person) {
+    public ResponseEntity<Person> addPerson(
+            @RequestBody Person person
+    ) {
         Person _person = personRepository.save(person);
         return new ResponseEntity<>(_person, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "person/{id}/balance")
+    public ResponseEntity<Integer> addMoneyToBalance(
+            @PathVariable("id") Long id,
+            @RequestBody int money
+    ) {
+        Optional<Person> optional = personRepository.findById(id);
+        Person person = optional.get();
+        person.setBalance(person.getBalance() + money);
+        personRepository.save(person);
+        return new ResponseEntity<>(person.getBalance(), HttpStatus.OK);
+    }
+
+    @PutMapping (value = "person/{id}/balance")
+    public ResponseEntity<Integer> withdrawMoneyFromBalance(
+            @PathVariable("id") Long id,
+            @RequestBody int money
+    ) {
+        Optional<Person> optional = personRepository.findById(id);
+        Person person = optional.get();
+        int balanceNow = person.getBalance();
+        if (balanceNow > Math.abs(money)) {
+            person.setBalance(balanceNow + money);
+            personRepository.save(person);
+            return new ResponseEntity<>(person.getBalance(), HttpStatus.OK);
+        } else {
+            return null; // TODO - throw NotEnoughMoneyException
+        }
     }
 
 }
