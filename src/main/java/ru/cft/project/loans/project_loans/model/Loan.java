@@ -25,11 +25,11 @@ public class Loan {
 
     // The amount left to be paid. Including rate
     @Column(name = "amount_left")
-    private Long amountLeft;
+    private int amountLeft;
 
     // The amount that the client loaned from the service
     @Column(name = "amount_loan")
-    private Long loanAmount;
+    private int loanAmount;
 
     // Interest rate
     @Column(name = "rate")
@@ -59,19 +59,19 @@ public class Loan {
         this.id = id;
     }
 
-    public Long getAmountLeft() {
+    public int getAmountLeft() {
         return amountLeft;
     }
 
-    public void setAmountLeft(Long amountLeft) {
+    public void setAmountLeft(int amountLeft) {
         this.amountLeft = amountLeft;
     }
 
-    public Long getLoanAmount() {
+    public int getLoanAmount() {
         return loanAmount;
     }
 
-    public void setLoanAmount(Long loanAmount) {
+    public void setLoanAmount(int loanAmount) {
         this.loanAmount = loanAmount;
     }
 

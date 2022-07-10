@@ -28,10 +28,18 @@ public class LoansController {
         return new ResponseEntity<>(loans, HttpStatus.OK);
     }
 
-    @GetMapping("/loans/{id}")
-    public ResponseEntity<Loan> getCommentsByTutorialId(@PathVariable(value = "id") Long id) {
-        Optional<Loan> optional = loansRepository.findById(id);
-        Loan loan = optional.get(); // TODO - throw exception
+    @GetMapping("/person/{personId}/loans/{loanId}")
+    public ResponseEntity<Loan> getLoanByPersonId(
+            @PathVariable(value = "personId") Long personId,
+            @PathVariable(value = "loanId") Long loanId
+    ) {
+        List<Loan> loans = loansRepository.findByPersonId(personId);
+        Loan loan = null;
+        for (Loan l : loans) {
+            if (l.getId().equals(loanId))
+                loan = l;
+            break;
+        }
         return new ResponseEntity<>(loan, HttpStatus.OK);
     }
 
