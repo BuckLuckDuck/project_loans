@@ -1,65 +1,48 @@
 package ru.cft.project.loans.project_loans.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.cft.project.loans.project_loans.model.Loan;
 import ru.cft.project.loans.project_loans.model.Payment;
-import ru.cft.project.loans.project_loans.model.Person;
-import ru.cft.project.loans.project_loans.repository.LoansRepository;
-import ru.cft.project.loans.project_loans.repository.PaymentRepository;
-import ru.cft.project.loans.project_loans.repository.PersonRepository;
+import ru.cft.project.loans.project_loans.service.PaymentsService;
 
 import java.util.List;
-import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class PaymentsController {
 
-    @Autowired
-    private PaymentRepository paymentRepository;
+    private final PaymentsService paymentsService;
 
     @Autowired
-    private LoansRepository loansRepository;
-
-    @Autowired
-    private PersonRepository personRepository;
+    public PaymentsController(PaymentsService paymentsService) {
+        this.paymentsService = paymentsService;
+    }
 
     @GetMapping("/person/{personId}/loans/{loanId}/payments")
-    public ResponseEntity<List<Payment>> getAllLoansByPersonId(
+    public ResponseEntity<List<Payment>> getAllPaymentsForLoanByLoanId(
             @PathVariable(value = "loanId") Long loanId
     ) {
-        List<Payment> payments = paymentRepository.findByLoanId(loanId);
+        List<Payment> payments = paymentsService.getAllPaymentsForLoanByLoanId(loanId);
         return new ResponseEntity<>(payments, HttpStatus.OK);
     }
 
     @PostMapping("/person/{personId}/loans/{loanId}/payments")
     public ResponseEntity<Payment> addPayment(
-            @PathVariable(value = "personId") Long idPerson,
-            @PathVariable(value = "loanId") Long idLoan,
+            @PathVariable(value = "personId") Long personId,
+            @PathVariable(value = "loanId") Long loanId,
             @RequestBody Payment paymentRequest
     ) {
-        Optional<Person> optionalPerson = personRepository.findById(idPerson);
-        Person person = optionalPerson.get();
-        if (person.getBalance() < paymentRequest.getAmount())
-            return null; // TODO - throw ExceptionNotEnoughMoney
-        person.setBalance(person.getBalance() - paymentRequest.getAmount());
-        personRepository.save(person);
-
-        Optional<Loan> optionalLoan = loansRepository.findById(idLoan);
-        Loan _loan = optionalLoan.get();
-        // TODO - if need to check amount bigger than how many amount left
-        _loan.setAmountLeft(_loan.getAmountLeft() - paymentRequest.getAmount());
-        loansRepository.save(_loan);
-
-        Optional<Payment> optionalPayment = loansRepository.findById(idLoan).map(loan -> {
-            paymentRequest.setLoan(loan);
-            return paymentRepository.save(paymentRequest);
-        });
-        Payment payment = optionalPayment.get();
+        Payment payment = paymentsService.addPayment(personId, loanId, paymentRequest);
         return new ResponseEntity<>(payment, HttpStatus.CREATED);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String handle(IllegalArgumentException e) {
+        return e.getMessage();
     }
 
 }

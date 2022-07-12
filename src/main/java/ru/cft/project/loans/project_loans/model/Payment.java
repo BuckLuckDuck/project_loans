@@ -15,7 +15,6 @@ public class Payment {
     private Long id;
 
     // The time the payment was made
-    // TODO - Calculated by the server
     @Column(name = "time")
     private String time;
 
