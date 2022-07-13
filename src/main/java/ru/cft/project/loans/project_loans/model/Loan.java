@@ -1,6 +1,7 @@
 package ru.cft.project.loans.project_loans.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -33,7 +34,11 @@ public class Loan {
 
     // Interest rate
     @Column(name = "rate")
+    @ColumnDefault("0.12")
     private Double rate;
+
+    @Column(name = "days")
+    private int days;
 
     // Date the loan was taken
     @Column(name = "start_date")
@@ -113,5 +118,13 @@ public class Loan {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getDays() {
+        return days;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
     }
 }

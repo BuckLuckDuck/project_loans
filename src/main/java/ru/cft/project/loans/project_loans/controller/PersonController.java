@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.cft.project.loans.project_loans.model.Person;
 import ru.cft.project.loans.project_loans.service.PersonService;
 
-import java.util.Optional;
-
 @Slf4j
 @RestController
 @RequestMapping("/api")
@@ -27,14 +25,17 @@ public class PersonController {
             @PathVariable("id") Long id
     ) {
         Person person = personService.getPerson(id);
-        return new ResponseEntity<>(person, HttpStatus.CREATED);
+        return new ResponseEntity<>(person, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/person")
+
+    // TODO - log
+    @PostMapping(value = "/person/{id}")
     public ResponseEntity<Person> addPerson(
-            @RequestBody Person person
+            @RequestBody Person person,
+            @PathVariable Long id
     ) {
-        Person _person = personService.addPerson(person);
+        Person _person = personService.addPerson(id, person);
         return new ResponseEntity<>(_person, HttpStatus.CREATED);
     }
 
@@ -52,13 +53,10 @@ public class PersonController {
             @PathVariable("id") Long id,
             @RequestBody int money
     ) {
-        int balance = personService.withdrawMoneyFromBalance(id, money);
-        return new ResponseEntity<>(balance, HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(personService.withdrawMoneyFromBalance(id, money), HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public String handle(IllegalArgumentException e) {
-        return e.getMessage();
-    }
-
 }
