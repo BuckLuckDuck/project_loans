@@ -12,13 +12,13 @@ public class Account {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    // User's login
+    // User's telephone number
     @Column(name = "login")
     private String login;
 
     // User's password
-    @Column(name = "password_token")
-    private String passwordToken;
+    @Column(name = "password")
+    private String password;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_person", referencedColumnName = "id")
@@ -43,12 +43,12 @@ public class Account {
         this.login = login;
     }
 
-    public String getPasswordToken() {
-        return passwordToken;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordToken(String passwordToken) {
-        this.passwordToken = passwordToken;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Person getPerson() {

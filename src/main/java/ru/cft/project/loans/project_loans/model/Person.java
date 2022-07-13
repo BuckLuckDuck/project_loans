@@ -5,10 +5,6 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -19,44 +15,35 @@ public class Person {
     private Long id;
 
     // Person's name
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     // Person's surname
-    @Column(name = "surname", nullable = false)
+    @Column(name = "surname")
     private String surname;
 
     // Person's patronymics. If exist.
     @Column(name = "patronymics")
     private String patronymics;
 
+    // Person's birthdate
+    @Column(name = "birthdate")
+    private String birthdate;
+
     // Series of person's passport
-    @Column(name = "passport_series", nullable = false)
+    @Column(name = "passport_series")
     private String passportSeries;
 
     // Number of person's passport
-    @Column(name = "passport_number", nullable = false)
+    @Column(name = "passport_number")
     private String passportNumber;
-
-    // Person's phone number
-    @Column(name = "phone_number", nullable = false)
-    private String phoneNumber;
-
-    // Person's email
-    @Column(name = "email")
-    private String email;
 
     @Column(name = "pts")
     private String pts;
 
-    @Column(name = "balance", nullable = false)
+    @Column(name = "balance")
     @ColumnDefault("-1")
     private int balance;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id")
-    private Account account;
-
 
     public Person() {
     }
@@ -109,28 +96,12 @@ public class Person {
         this.passportNumber = passportNumber;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getBirthdate() {
+        return birthdate;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setBirthdate(String email) {
+        this.birthdate = email;
     }
 
     public String getPts() {

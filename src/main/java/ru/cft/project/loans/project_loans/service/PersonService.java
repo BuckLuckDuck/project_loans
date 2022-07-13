@@ -1,9 +1,8 @@
 package ru.cft.project.loans.project_loans.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import ru.cft.project.loans.project_loans.model.Account;
 import ru.cft.project.loans.project_loans.model.Person;
 import ru.cft.project.loans.project_loans.repository.PersonRepository;
 
@@ -25,8 +24,8 @@ public class PersonService {
         return optional.get();
     }
 
-    public Person addPerson(Person personForAdd) {
-
+    public Person addPerson(Long id, Person personForAdd) {
+        personForAdd.setId(id);
         return personRepository.save(personForAdd);
     }
 
@@ -43,7 +42,7 @@ public class PersonService {
         Person person = optional.get();
         int balanceNow = person.getBalance();
         if (balanceNow < Math.abs(money)) {
-            throw new IllegalArgumentException("У вас недостаточно средств на балансе, для такой операции.");
+            throw new IllegalArgumentException();
         } else {
             person.setBalance(balanceNow - Math.abs(money));
             personRepository.save(person);

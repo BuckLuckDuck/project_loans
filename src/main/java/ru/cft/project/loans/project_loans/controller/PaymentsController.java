@@ -36,13 +36,10 @@ public class PaymentsController {
             @PathVariable(value = "loanId") Long loanId,
             @RequestBody Payment paymentRequest
     ) {
-        Payment payment = paymentsService.addPayment(personId, loanId, paymentRequest);
-        return new ResponseEntity<>(payment, HttpStatus.CREATED);
+        try {
+            return new ResponseEntity<>(paymentsService.addPayment(personId, loanId, paymentRequest), HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public String handle(IllegalArgumentException e) {
-        return e.getMessage();
-    }
-
 }
